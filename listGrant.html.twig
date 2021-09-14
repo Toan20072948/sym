@@ -1,0 +1,22 @@
+{% extends 'base.html.twig'%}
+
+{% block body %}
+    <br>
+    <a href="/admin/createGrant">Create a grant</a>
+    <div>
+        <table style="border: 1px solid;">
+            <tr>
+                <th>name</th>
+                <th>edit</th>
+                <th>delete</th>
+            </tr>
+            {%  for grant in grants %}
+             <tr>
+                 <td>{{ grant.name }}</td>
+                 <td><a href="/admin/editGrant/{{ grant.id }}">Edit</a></td>
+                 <td><a href="/admin/deleteGrant/{{ grant.id }}">Delete</a></td>
+             </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

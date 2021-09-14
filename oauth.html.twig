@@ -1,0 +1,43 @@
+{%  extends 'base.html.twig' %}
+{%  block body %}
+    <br>
+
+    <br>
+    Admin access:
+    {%  for grant in grants %}
+        <p> {{ grant }}</p>
+    {%  endfor %}
+
+    <br>
+
+    Read-only access: <br>
+    {%  for grant in grants %}
+    {%  if grant == "order_list" %}
+        {{ grant }}
+    {%  endif %}
+    {% endfor %}
+
+    <br>
+    <br>
+
+    <form action="{{ path('sso_connect_confirm') }}" method="post">
+        <div>
+            <input name="conRequest" value="{{ conRequest.getId() }}" type="hidden">
+            <input name="user" value="{{ connection.getUser().getId() }}" type="hidden">
+            <input name="app" value="{{ connection.getApplication().getId() }}" type="hidden">
+            {% for grant in connection.getGrants()  %}
+            <input name="grant[]" value="{{ grant }}" type="hidden">
+            {%  endfor %}
+{#            <input name="secret_connection" value="{{ connection.getSecret() }}" type="hidden">#}
+{#            <input name="public_key" value="{{ connection.getPublicKey() }}" type="hidden">#}
+{#            <input name="redirect" value="{{ redirect_success }}" type="hidden">#}
+
+        </div>
+
+        <input type="submit" value="Authorize" />
+    </form>
+    <form action ="" method="get">
+        <input type="submit" value="Cancel" />
+    </form>
+
+{%  endblock %}

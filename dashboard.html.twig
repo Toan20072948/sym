@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+Hello {{ app.user.username }}!
+
+<a href="{{ path('app_logout')}}">log out</a>
+    <br>
+
+<a href="{{ path('admin_create_grant') }}">Create a Grant </a>
+
+    <br>
+
+<a href="{{ path('user_connection_list') }}">Your connected Apps</a>
+
+    <a href="{{ path('admin_user_list') }}">User List</a>
+
+{% endblock %}

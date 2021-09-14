@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <table id="users" style="border: 1px solid;" >
+        <tr>
+            <th>username</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <tr>
+            <td> {{user.username}}</td>
+            <td><a href="/admin/editUser/{{ user.id }}">Edit</a></td>
+            <td ><a href="/admin/delete/{{ user.id }}">Delete</a></td>
+        </tr>
+    </table>
+    <a href="/admin/users">Show all users</a
+{% endblock %}
+
+
+

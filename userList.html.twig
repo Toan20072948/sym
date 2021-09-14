@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <br>
+     <label for="">Number of displayed users:</label>
+    <input id="limitID" type="text" name="limit" id="">
+    <label for="">Search:</label>
+    <input id="searchInput" type="text" name="username" id="">
+    <p id="no_found"></p>
+    <a href="/admin/createUser">Create User</a>
+    <br>
+    <br>
+    <!-- -->
+   
+    <!-- -->
+    <div id="users">
+        <table style="border: 1px solid;" >
+            <tr>
+                <th>username</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td> {{user.username}}</td>
+                <td><a href="/admin/editUser/{{ user.id }}">Edit</a></td>
+                <td ><a href="/admin/delete/{{ user.id }}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    {{ knp_pagination_render(users) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    //empty the input fields after reloading
+    window.onload = function() {
+    document.getElementById('limitID').value = '';
+    document.getElementById('searchInput').value = '';
+    }
+
+     $(document).ready(function(){
+        $("#searchInput").keyup(function(){            
+        let searchWord = $(this).val(); 
+        let limit = $("#limitID").val();
+        function load() {
+        setTimeout(function () {
+            $.ajax({
+                type:'post',
+                data: {
+                    "_token" : $('meta[name="csrf-token"]').attr('content'),
+                    "searchWord":searchWord,
+                    "limit":limit,
+                },
+                url: "/admin/userSearch",
+                success: function(data){
+                    if(!data["found"][0]) {
+                        $("#no_found").html("no user is found");
+                    }                    
+                    let html = '<table style="border: 1px solid;" >'+
+                            '<tr>'+
+                                '<th>username</th>'+
+                                '<th>Edit</th>'+
+                                '<th>Delete</th>'+
+                            '</tr>';
+                    for (let user of data["found"]){
+                        html += '<tr>'+
+                            ' <td> '+ user["username"] + '</td>'+
+                        '<td><a href="/admin/editUser/'+user["id"] +'">Edit</a></td>'+
+                        '<td><a href="/admin/delete/'+user["id"] +'">Delete</a></td>'
+
+                        '</tr>';  
+                    }
+                        html +='</table>';
+                    $("#users").html(html);
+                }
+            }) //ajax
+        },2000);
+        }
+        load();
+
+        }); //key up
+    });//document
+    
+</script>
+
+{% endblock %}
+
+

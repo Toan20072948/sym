@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edit user {% endblock %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {{ form_row(form.username) }}
+        {{ form_row(form.plainPassword) }}
+
+    {# {{ form_row(form.roles) }} #}
+    {{ form_row(form.email) }}
+    {{ form_row(form.displayName) }}
+    {{ form_row(form.activate) }}
+
+    {{ form_row(form.permissions) }}
+   
+<button type="submit"> Save </button>
+
+{{ form_end(form) }}
+
+{% endblock %}
